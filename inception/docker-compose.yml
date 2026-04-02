@@ -1,0 +1,75 @@
+services:
+    nginx:
+        depends_on:
+            - wordpress
+        build: ./srcs/requirements/nginx
+        ports:
+            - "443:443"
+        env_file:
+            - .env
+        volumes:
+            - www-pages:/var/www/html
+        networks:
+            - website
+        restart: always
+    wordpress:
+        depends_on:
+            database:
+                condition: service_healthy
+        build: ./srcs/requirements/wordpress
+        volumes:
+            - www-pages:/var/www/html
+        env_file:
+            - .env
+        networks:
+            - website
+        secrets:
+            - wordpress_admin
+            - wordpress_user
+            - database_user
+        restart: always
+    database:
+        build: ./srcs/requirements/database
+        volumes:
+            - db:/var/lib/mysql
+        env_file:
+            - .env
+        healthcheck:
+            test: ["CMD", "mariadb-admin", "ping"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+        networks:
+            - website
+        secrets:
+            - database_root
+            - database_user
+        restart: always
+
+volumes:
+    db:
+        driver: local
+        driver_opts:
+            type: none
+            device: /home/atamas/data/data_db
+            o: bind
+    www-pages:
+        driver: local
+        driver_opts:
+            type: none
+            device: /home/atamas/data/data_wp
+            o: bind
+
+networks:
+    website:
+        driver: bridge
+
+secrets:
+    database_root:
+        file: ./secrets/database_root.txt
+    database_user:
+        file: ./secrets/database_user.txt
+    wordpress_admin:
+        file: ./secrets/wordpress_admin.txt
+    wordpress_user:
+        file: ./secrets/wordpress_user.txt

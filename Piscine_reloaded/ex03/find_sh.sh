@@ -1,0 +1,1 @@
+find . -type f -name "*.sh" -execdir bash -c 'echo "${0%.sh}"' {} \;
