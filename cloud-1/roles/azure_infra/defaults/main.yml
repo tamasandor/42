@@ -1,0 +1,28 @@
+# Fallback variables for the Azure infrastructure role.
+
+resource_group_name: Default_RG
+location: switzerlandnorth
+
+security_group_name: Default_SG
+
+http_port: 80
+ssh_port: 22
+https_port: 443
+
+virtual_network_name: Default_VNet
+virtual_network_address_prefix: 10.0.0.0/20
+virtual_network_subnet_name: Default_Subnet
+virtual_network_subnet_address_prefix: 10.0.1.0/24
+
+public_ip_name: Default_PublicIP
+
+network_interface_name: Default_NIC
+
+vm_size: Standard_B2as_v2
+managed_disk_type: StandardSSD_LRS
+
+vm_image:
+  publisher: Canonical
+  offer: 0001-com-ubuntu-server-jammy
+  sku: 22_04-lts-gen2
+  version: 22.04.202606110

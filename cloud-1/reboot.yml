@@ -1,0 +1,14 @@
+- name: Reboot remote
+  hosts: cloud-1
+  become: true
+  tasks:
+    - name: Print reboot starting
+      ansible.builtin.debug:
+        msg: Rebooting...
+  
+    - name: Reboot
+      ansible.builtin.reboot:
+
+    - name: Print success
+      ansible.builtin.debug:
+        msg: Rebooting completed successfully.

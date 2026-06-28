@@ -1,0 +1,4 @@
+.vault_pass
+*.env
+*venv/
+group_vars/all.yml
